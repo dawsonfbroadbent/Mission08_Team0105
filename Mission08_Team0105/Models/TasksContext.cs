@@ -15,25 +15,37 @@ public partial class TasksContext : DbContext
     {
     }
 
+    public virtual DbSet<Category> Categories { get; set; }
     public virtual DbSet<Task> Tasks { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite("Data Source=tasks.sqlite");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.ToTable("categories");
+
+            entity.HasIndex(e => e.Name, "IX_categories_name").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name");
+        });
+
         modelBuilder.Entity<Task>(entity =>
         {
             entity.ToTable("tasks");
 
-            entity.Property(e => e.TaskId).HasColumnName("task_id");
-            entity.Property(e => e.Category).HasColumnName("category");
-            entity.Property(e => e.Completed).HasColumnName("completed");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.Completed)
+                .HasColumnType("BOOLEAN")
+                .HasColumnName("completed");
             entity.Property(e => e.DueDate)
                 .HasColumnType("DATE")
                 .HasColumnName("due_date");
             entity.Property(e => e.Quadrant).HasColumnName("quadrant");
-            entity.Property(e => e.TaskName).HasColumnName("task_name");
+            entity.Property(e => e.Task1).HasColumnName("task");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Tasks).HasForeignKey(d => d.CategoryId);
         });
 
         OnModelCreatingPartial(modelBuilder);

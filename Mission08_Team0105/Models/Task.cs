@@ -5,15 +5,17 @@ namespace Mission08_Team0105.Models;
 
 public partial class Task
 {
-    public int TaskId { get; set; }
+    public int Id { get; set; }
 
-    public string TaskName { get; set; } = null!;
+    public string Task1 { get; set; } = null!;
 
-    public DateTime? DueDate { get; set; }
+    public DateOnly? DueDate { get; set; }
 
     public int Quadrant { get; set; }
 
-    public string? Category { get; set; }
+    public int? CategoryId { get; set; }
 
-    public int Completed { get; set; }
+    public bool Completed { get; set; }
+
+    public virtual Category? Category { get; set; }
 }
