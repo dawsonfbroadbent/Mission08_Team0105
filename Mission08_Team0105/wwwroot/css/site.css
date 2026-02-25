@@ -29,3 +29,20 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.vertical-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+}
+
+.matrix-container {
+    /* The pale yellow background color */
+    background-color: #E3D28E;
+    /* Adds some breathing room inside the container so text doesn't touch the edges */
+    padding: 20px;
+    /* The thick dark border around the very outside, matching the image */
+    border: 5px solid black;
+    /* Gives the outer box slightly rounded corners, just like the image */
+    border-radius: 15px;
+}

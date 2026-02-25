@@ -1,0 +1,10 @@
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.csproj.AssemblyReference.cache
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.AssemblyInfoInputs.cache
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.AssemblyInfo.cs
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.csproj.CoreCompileInputs.cache
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.RazorAssemblyInfo.cache
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.RazorAssemblyInfo.cs
+C:\Users\garre\source\repos\Mission08_Team0105\Mission08_Team0105\obj\Debug\net10.0\Mission08_Team0105.sourcelink.json
