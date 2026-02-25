@@ -6,3 +6,8 @@ obj/
 *.user
 *.suo
 *.cache
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.sln.iml
+*.iml
