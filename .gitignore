@@ -11,3 +11,6 @@
 .idea/
 *.sln.iml
 *.iml
+
+.DS_Store
+*.log
