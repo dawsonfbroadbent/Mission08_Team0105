@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<TasksContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("TasksConnection"));
+    options.UseSqlite(builder.Configuration["ConnectionStrings:TasksConnection"]);
 });
 
 builder.Services.AddScoped<ITasksRepository, EFTasksRepository>();
