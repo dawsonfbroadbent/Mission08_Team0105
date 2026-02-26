@@ -27,6 +27,15 @@ public class HomeController : Controller
         return View("AddEditTask", new Task());
     }
 
+    public IActionResult quadrants()
+    {
+        var tasks = _context.Tasks
+            .Include(x => x.Category)
+            .OrderBy(x => x.Id).ToList();
+
+        return View(tasks);
+    }
+
     [HttpPost]
     public IActionResult AddEditTask(Task response)
     {
