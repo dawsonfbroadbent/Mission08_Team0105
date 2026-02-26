@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mission08_Team0105.Models;
 using System.Diagnostics;
+using Task = Mission08_Team0105.Models.Task;
 
 namespace Mission08_Team0105.Controllers;
 
@@ -44,7 +45,7 @@ public class HomeController : Controller
             _context.Tasks.Add(response); //Add record to database
             _context.SaveChanges();
 
-            return View("Confirmation", response);
+            return RedirectToAction("quadrants");
         }
         else
         {
