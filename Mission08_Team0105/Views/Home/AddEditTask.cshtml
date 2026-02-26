@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model task
+
+@* notes for controller:
+we need to pass in the task class as the model
+We need to pass in a View Bag of the categories for the dropdown
+make sure to check isValid in the controller *@
+
+<h1>Enter Task Information</h1>
+
+<form method="post">
+    
+    @* to know what task to grab when editing *@
+    <input type="hidden" asp-for="id" />
+
+    @* task creation form *@
+
+    <label asp-for="task">Task:</label>
+    <input asp-for="task" />
+    <br />
+
+    <label asp-for="due_date">Due Date:</label>
+    <input asp-for="due_date" type="date" />
+    <br />
+
+    @* Dropdown for quadrants 1-4 *@
+    <label asp-for="quadrant">Quadrant:</label>
+    <select asp-for="quadrant"> 
+        <option value="">Select a Quadrant</option>
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+    </select>
+    <br />
+
+    <label asp-for="category_id">Category</label>
+    <select asp-for="category_id">
+        <option value="">Select a Category</option>
+        @foreach (Category c in ViewBag.Categories)
+        {
+            <option value="@c.id">@c.name</option>
+        }
+    </select>
+    <br />
+    
+    <label asp-for="completed">Completed?</label>
+    <select asp-for="completed">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+    <br />
+
+    <button type="submit">Submit Task</button>
+
+    <div asp-validation-summary="All"></div>
+</form>
