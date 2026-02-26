@@ -4,7 +4,7 @@
 @{
 }
 
-@model task
+@model Mission08_Team0105.Models.Task
 
 @* notes for controller:
 we need to pass in the task class as the model
@@ -16,21 +16,21 @@ make sure to check isValid in the controller *@
 <form method="post">
     
     @* to know what task to grab when editing *@
-    <input type="hidden" asp-for="id" />
+    <input type="hidden" asp-for="Id" />
 
     @* task creation form *@
-
-    <label asp-for="task">Task:</label>
-    <input asp-for="task" />
+    @* Task Name is called Task1 in the Task model *@
+    <label asp-for="Task1">Task:</label>
+    <input asp-for="Task1" />
     <br />
 
-    <label asp-for="due_date">Due Date:</label>
-    <input asp-for="due_date" type="date" />
+    <label asp-for="DueDate">Due Date:</label>
+    <input asp-for="DueDate" type="date" />
     <br />
 
     @* Dropdown for quadrants 1-4 *@
-    <label asp-for="quadrant">Quadrant:</label>
-    <select asp-for="quadrant"> 
+    <label asp-for="Quadrant">Quadrant:</label>
+    <select asp-for="Quadrant"> 
         <option value="">Select a Quadrant</option>
         <option value=1>1</option>
         <option value=2>2</option>
@@ -39,18 +39,18 @@ make sure to check isValid in the controller *@
     </select>
     <br />
 
-    <label asp-for="category_id">Category</label>
-    <select asp-for="category_id">
+    <label asp-for="CategoryId">Category</label>
+    <select asp-for="CategoryId">
         <option value="">Select a Category</option>
         @foreach (Category c in ViewBag.Categories)
         {
-            <option value="@c.id">@c.name</option>
+            <option value="@c.Id">@c.Name</option>
         }
     </select>
     <br />
     
-    <label asp-for="completed">Completed?</label>
-    <select asp-for="completed">
+    <label asp-for="Completed">Completed?</label>
+    <select asp-for="Completed">
         <option value="true">Yes</option>
         <option value="false">No</option>
     </select>
