@@ -7,10 +7,10 @@ namespace Mission08_Team0105.Controllers;
 
 public class HomeController : Controller
 {
-    private TasksContext _context;
-    public HomeController(TasksContext temp)
+    private ITasksRepository _repo;
+    public HomeController(ITasksRepository temp)
     {
-        _context = temp;
+        _repo = temp;
     }
 
     public IActionResult Index()
@@ -20,17 +20,13 @@ public class HomeController : Controller
 
     public IActionResult AddEditTask()
     {
-        ViewBag.Categories = _context.Categories
-           .OrderBy(x => x.Name)
-           .ToList();
-
+        ViewBag.Categories = _repo.GetCategories();
         return View("AddEditTask", new Task());
     }
 
     public IActionResult quadrants()
     {
-        var tasks = _context.Tasks
-            .Include(x => x.Category)
+        var tasks = _repo.GetTasks()
             .OrderBy(x => x.Id).ToList();
 
         return View(tasks);
@@ -41,16 +37,13 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Tasks.Add(response); //Add record to database
-            _context.SaveChanges();
+            _repo.AddTask(response);
 
             return View("Confirmation", response);
         }
         else
         {
-            ViewBag.Categories = _context.Categories
-                .OrderBy(x => x.Name)
-                .ToList();
+            ViewBag.Categories = _repo.GetCategories();
 
             return View(response);
         }
@@ -59,12 +52,9 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var recordtoEdit = _context.Tasks
-            .Single(x => x.Id == id);
+        var recordtoEdit = _repo.GetTaskById(id);
 
-        ViewBag.Categories = _context.Categories
-            .OrderBy(x => x.Name)
-            .ToList();
+        ViewBag.Categories = _repo.GetCategories();
 
         return View("AddEditTask", recordtoEdit);
     }
@@ -72,8 +62,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Edit(Task updatedInfo)
     {
-        _context.Update(updatedInfo);
-        _context.SaveChanges();
+        _repo.UpdateTask(updatedInfo);
 
         return RedirectToAction("quadrants");
     }
@@ -81,8 +70,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var recordtoDelete = _context.Tasks
-            .Single(x => x.Id == id);
+        var recordtoDelete = _repo.GetTaskById(id);
 
         return View(recordtoDelete);
     }
@@ -90,8 +78,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Delete(Task recordtoDelete)
     {
-        _context.Tasks.Remove(recordtoDelete);
-        _context.SaveChanges();
+        _repo.DeleteTaskById(recordtoDelete.Id);
         return RedirectToAction("quadrants");
     }
 }
