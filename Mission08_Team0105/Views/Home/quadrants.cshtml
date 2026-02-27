@@ -1,208 +1,142 @@
-﻿@model List<Mission08_Team0105.Models.Task>
+﻿@* Bind this view to a List of Task objects passed from the HomeController *@
+@model List<Mission08_Team0105.Models.Task>
 
 @{
     ViewData["Title"] = "Time Management Matrix";
 }
 
 <style>
-    /* Mimics the outer shape and background of the image */
-    .matrix-wrapper {
-        background-color: #eaddb4; /* Base tan color matching the image */
-        border: 4px solid #000; /* Thick outer border */
-        border-radius: 12px; /* Rounded corners like the image */
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        overflow: hidden; /* Keeps the sharp grid lines inside the rounded corners */
-    }
-
-    /* Top Title Area */
-    .matrix-header {
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.5rem;
-        text-transform: uppercase;
-        padding: 15px;
-        letter-spacing: 1px;
-        color: #000;
-    }
-
-    /* CSS Grid to create perfect intersecting lines */
-    .covey-grid {
-        display: grid;
-        grid-template-columns: 60px 1fr 1fr;
-        grid-template-rows: auto 1fr 1fr;
-        gap: 2px; /* This gap reveals the black background, creating perfect borders! */
-        background-color: #000; /* Color of the grid lines */
-        border-top: 4px solid #000; /* Thick line separating title from grid */
-    }
-
-    /* Shared styling for every cell in the grid */
-    .grid-item {
-        background-color: #eaddb4; /* Fills each cell with the tan color */
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Top Row Headers */
-    .col-header {
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 1.25rem;
-        text-transform: uppercase;
-        padding: 10px;
-        color: #000;
-    }
-
-    /* Left Column Vertical Headers */
-    .row-header {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 1.25rem;
-        text-transform: uppercase;
+    .vertical-text {
+        writing-mode: vertical-rl; /* Turns the text sideways */
+        transform: rotate(180deg); /* Flips it so it reads bottom-to-top */
         letter-spacing: 2px;
-        padding: 10px;
-        color: #000;
     }
 
-    /* Quadrant Text */
-    .quadrant-title {
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.2rem;
-        margin-bottom: 0.25rem;
-        color: #000;
-    }
-
-    .quadrant-subtitle {
-        text-align: center;
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-        color: #333;
-    }
-
-    /* Individual Task Styles */
     .task-card {
-        background-color: #fff;
-        border: 2px solid #000; /* Sharp border to match the illustration style */
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 12px;
-        color: #000;
-        box-shadow: 2px 2px 0px rgba(0,0,0,0.1); /* Subtle drop shadow */
+        background-color: #ffffff;
+        border: 2px solid #000;
+        box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
     }
-
-        .task-card h5 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-        .task-card p {
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
 </style>
 
-<div class="container">
-    <div class="matrix-wrapper">
-        <div class="matrix-header">
-            Stephen Covey's Time Management Matrix
+<div class="container mt-4 mb-5">
+    <div class="border border-dark border-4 rounded-3 overflow-hidden" style="background-color: #eaddb4; color: #000;">
+
+        <div class="row g-0 border-bottom border-dark border-4">
+            <div class="col-12 text-center p-3">
+                <h2 class="fw-bold text-uppercase mb-0">Stephen Covey's Time Management Matrix</h2>
+            </div>
         </div>
 
-        <div class="covey-grid">
+        <div class="row g-0 border-bottom border-dark border-2 text-center fw-bold fs-5 text-uppercase">
+            <div class="col-1 border-end border-dark border-2"></div> <div class="col border-end border-dark border-2 p-2">Urgent</div>
+            <div class="col p-2">Not Urgent</div>
+        </div>
 
-            <div class="grid-item empty-corner"></div>
-            <div class="grid-item col-header">Urgent</div>
-            <div class="grid-item col-header">Not Urgent</div>
+        <div class="row g-0 border-bottom border-dark border-2">
+            <div class="col-1 border-end border-dark border-2 d-flex align-items-center justify-content-center p-2">
+                <span class="vertical-text fw-bold fs-5 text-uppercase">Important</span>
+            </div>
 
-            <div class="grid-item row-header">Important</div>
+            <div class="col border-end border-dark border-2 p-3">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold mb-0">Quadrant 1</h4>
+                    <small>Crises<br />Pressing Problems<br />Projects with Deadlines</small>
+                </div>
 
-            <div class="grid-item">
-                <div class="quadrant-title">Quadrant 1</div>
-                <div class="quadrant-subtitle">Crises<br />Pressing Problems<br />Projects with Deadlines</div>
-
+                @* Loop through the Model, filtering for tasks that belong in Q1 AND are not yet completed *@
                 @foreach (var task in Model.Where(t => t.Quadrant == 1 && !t.Completed))
                 {
-                    <div class="task-card">
-                        <h5>@task.Task1</h5>
-                        <p>
+                    <div class="task-card p-2 mb-2 rounded">
+                        <h6 class="fw-bold mb-1">@task.Task1</h6>
+                        <p class="small mb-2 text-muted">
                             <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
                             <strong>Category:</strong> @task.Category?.Name
                         </p>
-                        <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border border-dark fw-bold">Edit</a>
-                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border border-dark fw-bold">Delete</a>
+                        <div class="d-flex justify-content-end gap-1">
+                            @* Action buttons that pass the specific Task ID back to the Edit and Delete GET actions in the controller *@
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border-dark fw-bold">Edit</a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border-dark fw-bold">Delete</a>
                         </div>
                     </div>
                 }
             </div>
 
-            <div class="grid-item">
-                <div class="quadrant-title">Quadrant 2</div>
-                <div class="quadrant-subtitle">Relationship Building<br />Planning<br />Recreation</div>
+            <div class="col p-3">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold mb-0">Quadrant 2</h4>
+                    <small>Relationship Building<br />Planning<br />Recreation</small>
+                </div>
 
+                @* Loop through the Model, filtering for tasks that belong in Q2 AND are not yet completed *@
                 @foreach (var task in Model.Where(t => t.Quadrant == 2 && !t.Completed))
                 {
-                    <div class="task-card">
-                        <h5>@task.Task1</h5>
-                        <p>
+                    <div class="task-card p-2 mb-2 rounded">
+                        <h6 class="fw-bold mb-1">@task.Task1</h6>
+                        <p class="small mb-2 text-muted">
                             <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
                             <strong>Category:</strong> @task.Category?.Name
                         </p>
-                        <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border border-dark fw-bold">Edit</a>
-                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border border-dark fw-bold">Delete</a>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div class="grid-item row-header">Not Important</div>
-
-            <div class="grid-item">
-                <div class="quadrant-title">Quadrant 3</div>
-                <div class="quadrant-subtitle">Interruptions<br />Some Phone Calls<br />Some Mail<br />Some Reports</div>
-
-                @foreach (var task in Model.Where(t => t.Quadrant == 3 && !t.Completed))
-                {
-                    <div class="task-card">
-                        <h5>@task.Task1</h5>
-                        <p>
-                            <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
-                            <strong>Category:</strong> @task.Category?.Name
-                        </p>
-                        <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border border-dark fw-bold">Edit</a>
-                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border border-dark fw-bold">Delete</a>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div class="grid-item">
-                <div class="quadrant-title">Quadrant 4</div>
-                <div class="quadrant-subtitle">Busy Work<br />Some Phone Calls<br />Some Mail<br />Time Wasters</div>
-
-                @foreach (var task in Model.Where(t => t.Quadrant == 4 && !t.Completed))
-                {
-                    <div class="task-card">
-                        <h5>@task.Task1</h5>
-                        <p>
-                            <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
-                            <strong>Category:</strong> @task.Category?.Name
-                        </p>
-                        <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border border-dark fw-bold">Edit</a>
-                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border border-dark fw-bold">Delete</a>
+                        <div class="d-flex justify-content-end gap-1">
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border-dark fw-bold">Edit</a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border-dark fw-bold">Delete</a>
                         </div>
                     </div>
                 }
             </div>
         </div>
+
+        <div class="row g-0">
+            <div class="col-1 border-end border-dark border-2 d-flex align-items-center justify-content-center p-2">
+                <span class="vertical-text fw-bold fs-5 text-uppercase">Not Important</span>
+            </div>
+
+            <div class="col border-end border-dark border-2 p-3">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold mb-0">Quadrant 3</h4>
+                    <small>Interruptions<br />Some Phone Calls<br />Some Mail<br />Some Reports</small>
+                </div>
+
+                @* Loop through the Model, filtering for tasks that belong in Q3 AND are not yet completed *@
+                @foreach (var task in Model.Where(t => t.Quadrant == 3 && !t.Completed))
+                {
+                    <div class="task-card p-2 mb-2 rounded">
+                        <h6 class="fw-bold mb-1">@task.Task1</h6>
+                        <p class="small mb-2 text-muted">
+                            <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
+                            <strong>Category:</strong> @task.Category?.Name
+                        </p>
+                        <div class="d-flex justify-content-end gap-1">
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border-dark fw-bold">Edit</a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border-dark fw-bold">Delete</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col p-3">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold mb-0">Quadrant 4</h4>
+                    <small>Busy Work<br />Some Phone Calls<br />Some Mail<br />Time Wasters</small>
+                </div>
+
+                @* Loop through the Model, filtering for tasks that belong in Q4 AND are not yet completed *@
+                @foreach (var task in Model.Where(t => t.Quadrant == 4 && !t.Completed))
+                {
+                    <div class="task-card p-2 mb-2 rounded">
+                        <h6 class="fw-bold mb-1">@task.Task1</h6>
+                        <p class="small mb-2 text-muted">
+                            <strong>Due:</strong> @(task.DueDate?.ToString("MM/dd/yyyy") ?? "None") <br />
+                            <strong>Category:</strong> @task.Category?.Name
+                        </p>
+                        <div class="d-flex justify-content-end gap-1">
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-warning btn-sm border-dark fw-bold">Edit</a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger btn-sm border-dark fw-bold">Delete</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
     </div>
 </div>

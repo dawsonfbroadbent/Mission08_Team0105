@@ -1,62 +1,82 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿@* Bind to a single Task object for data entry/editing *@
 @model Mission08_Team0105.Models.Task
 
-@* notes for controller:
-we need to pass in the task class as the model
-We need to pass in a View Bag of the categories for the dropdown
-make sure to check isValid in the controller *@
+@{
+    @* Dynamically change the H2 and tab title depending on if the user is Adding (Id == 0) or Editing (Id > 0) *@
+    ViewData["Title"] = Model.Id == 0 ? "Add Task" : "Edit Task";
+}
 
-<h1>Enter Task Information</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2 class="mb-0">@(Model.Id == 0 ? "Add New Task" : "Edit Task")</h2>
+                </div>
+                <div class="card-body p-4">
 
-<form method="post">
-    
-    @* to know what task to grab when editing *@
-    <input type="hidden" asp-for="Id" />
+                    <form method="post">
 
-    @* task creation form *@
-    @* Task Name is called Task1 in the Task model *@
-    <label asp-for="Task1">Task:</label>
-    <input asp-for="Task1" />
-    <br />
+                        @* HIDDEN FIELD: This is crucial for editing. It binds the existing ID to the model so the controller knows which record to update, but hides it from the user. *@
+                        <input type="hidden" asp-for="Id" />
 
-    <label asp-for="DueDate">Due Date:</label>
-    <input asp-for="DueDate" type="date" />
-    <br />
+                        <div class="mb-3">
+                            <label asp-for="Task1" class="form-label fw-bold">Task Description:</label>
+                            <input asp-for="Task1" class="form-control" placeholder="Enter task name..." />
 
-    @* Dropdown for quadrants 1-4 *@
-    <label asp-for="Quadrant">Quadrant:</label>
-    <select asp-for="Quadrant"> 
-        <option value="">Select a Quadrant</option>
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-    </select>
-    <br />
+                            @* Displays data annotation error messages if this specific field is left blank *@
+                            <span asp-validation-for="Task1" class="text-danger small"></span>
+                        </div>
 
-    <label asp-for="CategoryId">Category</label>
-    <select asp-for="CategoryId">
-        <option value="">Select a Category</option>
-        @foreach (Category c in ViewBag.Categories)
-        {
-            <option value="@c.Id">@c.Name</option>
-        }
-    </select>
-    <br />
-    
-    <label asp-for="Completed">Completed?</label>
-    <select asp-for="Completed">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-    </select>
-    <br />
+                        <div class="mb-3">
+                            <label asp-for="DueDate" class="form-label fw-bold">Due Date:</label>
+                            <input asp-for="DueDate" type="date" class="form-control" />
+                        </div>
 
-    <button type="submit">Submit Task</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Quadrant" class="form-label fw-bold">Quadrant:</label>
+                                <select asp-for="Quadrant" class="form-select">
+                                    <option value="">Select a Quadrant</option>
+                                    <option value="1">1 - Urgent / Important</option>
+                                    <option value="2">2 - Not Urgent / Important</option>
+                                    <option value="3">3 - Urgent / Not Important</option>
+                                    <option value="4">4 - Not Urgent / Not Important</option>
+                                </select>
+                                <span asp-validation-for="Quadrant" class="text-danger small"></span>
+                            </div>
 
-    <div asp-validation-summary="All"></div>
-</form>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CategoryId" class="form-label fw-bold">Category:</label>
+                                <select asp-for="CategoryId" class="form-select">
+                                    <option value="">Select a Category</option>
+
+                                    @* Dynamically loop through the Categories passed from the controller via the ViewBag to populate the dropdown *@
+                                    @foreach (Category c in ViewBag.Categories)
+                                    {
+                                        <option value="@c.Id">@c.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Completed" class="form-label fw-bold">Completed?</label>
+                            <select asp-for="Completed" class="form-select">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">Submit Task</button>
+                        </div>
+
+                        @* Catch-all validation summary to display any model errors that don't belong to a specific property *@
+                        <div asp-validation-summary="ModelOnly" class="text-danger mt-3"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
