@@ -1,0 +1,51 @@
+﻿@model Mission08_Team0105.Models.Task
+
+@{
+    ViewData["Title"] = "Confirm Deletion";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+
+                <div class="card-header bg-danger text-white text-center">
+                    <h2 class="mb-0">Confirm Deletion</h2>
+                </div>
+
+                <div class="card-body text-center p-4">
+
+                    <p class="fs-5">
+                        Are you sure you want to delete this task?
+                    </p>
+
+                    <div class="alert alert-light border">
+                        <strong>Task:</strong> @Model.Task1
+                        <br />
+                        <strong>Due Date:</strong> @Model.DueDate?.ToShortDateString()
+                        <br />
+                        <strong>Quadrant:</strong> @Model.Quadrant
+                    </div>
+
+                    <form method="post">
+                        @* Hidden ID so controller knows what to delete *@
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold">
+                                Delete Task
+                            </button>
+
+                            <a class="btn btn-outline-secondary btn-lg"
+                               asp-controller="Home"
+                               asp-action="Quadrants">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
